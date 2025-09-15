@@ -20,26 +20,22 @@ El sistema está desarrollado bajo el patrón **MVC + DAO** utilizando **HTML, C
 
 ## 🏗️ Estructura del proyecto
 
+```
 /BMmoshon/
 │
 ├── /app/
 │ ├── /controllers/
 │ ├── /models/
 │ ├── /dao/
-│ ├── /services/
-│ └── config.php
 │
 ├── /public/
 │ ├── /css/
 │ ├── /js/
 │ ├── /img/
 │ ├── /views/
-│ └── index.php
-│
-├── /docs/
-├── /tests/
-├── .gitignore
+
 └── README.md
+```
 
 ## ⚙️ Tecnologías utilizadas
 
@@ -47,7 +43,7 @@ El sistema está desarrollado bajo el patrón **MVC + DAO** utilizando **HTML, C
 - **Backend:** PHP (MVC + DAO)
 - **Base de datos:** MySQL
 - **Control de versiones:** Git / GitHub
-- **Entorno local:** XAMPP / Laragon / Docker
+- **Entorno local:** XAMPP
 
 ---
 
