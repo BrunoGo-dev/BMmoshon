@@ -9,6 +9,8 @@
     <h1>Sistema de Ventas - BMmoshon</h1>
     <p>Bienvenido al sistema de ventas de BMmoshon. Aquí podrás gestionar tus ventas de manera eficiente.</p>
 
-    <footer>Creando Footer de Prueba</footer>
+     <footer>
+        <p>&copy; 2025 BMmoshon. Todos los derechos reservados.</p>
+    </footer>
 </body>
 </html>
