@@ -1,31 +1,14 @@
 version: '3.8'
 
 services:
-
   web:
     build: .
     ports:
-      - "8080:80"     # Accedes a tu web desde http://localhost:8080
-    depends_on:
-      - db
+      - "8080:80"
     environment:
       DB_HOST: sql.freedb.tech
       DB_USER: freedb_brayan0621
-      DB_PASSWORD: AU!p53czm@U?5Aj
+      DB_PASSWORD: "AU!p53czm@U?5Aj"
       DB_NAME: freedb_bmmoda1
     volumes:
       - .:/var/www/html
-
-  db:
-    image: mysql:8
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: AU!p53czm@U?5Aj
-      MYSQL_DATABASE: freedb_bmmoda1
-    ports:
-      - "3306:3306"   # 3307 en tu PC → 3306 en contenedor
-    volumes:
-      - mysql_data:/var/lib/mysql
-
-volumes:
-  mysql_data:
