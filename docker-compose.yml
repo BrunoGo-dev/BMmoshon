@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+
+  web:
+    build: .
+    ports:
+      - "8080:80"     # Accedes a tu web desde http://localhost:8080
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: 12345
+      DB_NAME: bmmoda1
+    volumes:
+      - .:/var/www/html
+
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_DATABASE: bmmoda1
+    ports:
+      - "3306:3306"   # 3307 en tu PC → 3306 en contenedor
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:

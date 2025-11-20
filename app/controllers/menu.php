@@ -1,54 +1,46 @@
 <?php
+// Iniciar sesión solo si no hay una activa
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 include_once(__DIR__ . "/../models/conexion/cls_conectar.php");
 
-session_start(); 
 $obj = new conexion();
 $conexion = $obj->getConexion();
 
+$opciones = [];
+
+// Obtener rol del usuario si está logueado
 if (isset($_SESSION['correo'])) {
     $correo = $_SESSION['correo'];
-    $rolmenu = true;
-
     $queryrol = mysqli_query($conexion, "SELECT rol FROM usuario WHERE correo = '$correo'");
-
-    if ($queryrol) {
+    if ($queryrol && mysqli_num_rows($queryrol) > 0) {
         $rolData = mysqli_fetch_assoc($queryrol);
         $rol = $rolData['rol'];
-
-        switch ($rol) {
-            case 1:
-                $query = "SELECT * FROM rol WHERE rol='1'";
-                break;
-            case 2:
-                $query = "SELECT * FROM rol WHERE rol='2'";
-                break;
-            case 3:
-                $query = "SELECT * FROM rol WHERE rol='3'";
-                break;
-        }
-
-        $result = mysqli_query($conexion, $query);
-        echo "<html><nav><ul>";
-
+        $result = mysqli_query($conexion, "SELECT * FROM rol WHERE rol = '$rol'");
         while ($row = mysqli_fetch_assoc($result)) {
-            echo '<li><a href="' . htmlspecialchars($row['enlace']) . '">' . htmlspecialchars($row['nombre']) . '</a></li>';
+            $opciones[] = [
+                'enlace' => htmlspecialchars($row['enlace']),
+                'nombre' => htmlspecialchars($row['nombre'])
+            ];
         }
-
-        echo "</ul></nav></html>";
-    } else {
-        echo "Error en la consulta de rol: " . mysqli_error($conexion);
     }
 } else {
-    $query = "SELECT * FROM rol WHERE rol='0'";
-    $result = mysqli_query($conexion, $query);
-    echo "<html><nav><ul>";
-
+    // Rol 0 para visitantes no autenticados
+    $result = mysqli_query($conexion, "SELECT * FROM rol WHERE rol = '0'");
     while ($row = mysqli_fetch_assoc($result)) {
-        echo '<li><a href="' . htmlspecialchars($row['enlace']) . '">' . htmlspecialchars($row['nombre']) . '</a></li>';
+        $opciones[] = [
+            'enlace' => htmlspecialchars($row['enlace']),
+            'nombre' => htmlspecialchars($row['nombre'])
+        ];
     }
-
-    echo "</ul></nav></html>";
 }
 
 mysqli_close($conexion);
+
+// Imprimir directamente el menú
+foreach ($opciones as $op) {
+    echo '<li><a href="' . $op['enlace'] . '">' . $op['nombre'] . '</a></li>';
+}
 ?>

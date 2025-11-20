@@ -1,3 +1,4 @@
+<?php include("../init.php"); ?>
 <?php 
     require_once("conexion/cls_conectar.php");
     $obj = new conexion();

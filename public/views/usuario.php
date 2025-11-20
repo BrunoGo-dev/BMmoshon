@@ -1,3 +1,4 @@
+<?php include("../init.php"); ?>
 <?php 
 	
     require_once("../../app/models/conexion/cls_conectar.php");
