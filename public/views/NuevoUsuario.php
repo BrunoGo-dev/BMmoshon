@@ -35,7 +35,7 @@
     </header>
     <div id="contenedor2">
         <div class="formulario">
-            <form id="form-registro">
+            <form id="form-registro" onsubmit="return false;">
                 <fieldset>
                     <h2>Crear Cuenta</h2>
 
@@ -219,7 +219,7 @@
             }
 
             if (!error) {
-                fetch('newUsuario.php', {
+                fetch('/app/controllers/newUsuario.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
