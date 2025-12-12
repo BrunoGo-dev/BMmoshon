@@ -8,14 +8,16 @@
     <link rel="stylesheet" href="../css/nuevousuario.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Concert+One&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Concert+One&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto+Slab:wght@100..900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         .advertencia {
-            color: white; 
+            color: white;
             font-size: 12px;
             margin-top: 5px;
-            white-space: nowrap; 
+            white-space: nowrap;
         }
     </style>
 </head>
@@ -23,10 +25,10 @@
 <body>
     <header>
         <div class="logo">
-            <img src="../img/el_logo_BM.jpg" alt="Logo">                    
+            <img src="../img/el_logo_BM.jpg" alt="Logo">
         </div>
         <nav>
-            <ul>         
+            <ul>
                 <li><a href="Principal.php"><i class="fas fa-home"></i> Inicio</a></li>
                 <li><a href="Nosotros.php"><i class="fas fa-user"></i> Nosotros</a></li>
                 <li><a href="Contactanos.php"><i class="fas fa-envelope"></i>Contactanos</a></li>
@@ -65,13 +67,15 @@
 
                     <p>Direccion de envio</p>
                     <div class="tamañobarras">
-                        <input type="text" placeholder="ejemplo: 7042 Av. Universitaria Comas, Provincia de Lima" id="direccion" name="direccion">
+                        <input type="text" placeholder="ejemplo: 7042 Av. Universitaria Comas, Provincia de Lima"
+                            id="direccion" name="direccion">
                         <div id="direccion-advertencia" class="advertencia"></div>
                     </div>
 
                     <p>Fecha de nacimiento</p>
                     <div class="tamañobarras">
-                        <input type="date" placeholder="dia del mes del año" id="fecha_nacimiento" name="fecha_nacimiento">
+                        <input type="date" placeholder="dia del mes del año" id="fecha_nacimiento"
+                            name="fecha_nacimiento">
                         <div id="fecha_nacimiento-advertencia" class="advertencia"></div>
                     </div>
 
@@ -97,16 +101,17 @@
                     </div><br>
 
                     <div class="texto-blanco">
-                        <input class="aceptar" type="checkbox" id="politica"> Al crear una cuenta, aceptas las 
-                        <a href="#"> 
+                        <input class="aceptar" type="checkbox" id="politica"> Al crear una cuenta, aceptas las
+                        <a href="#">
                             <span>Condiciones de Uso</span>
                         </a> y el <a href="#">
                             <span>Aviso de Privacidad</span>
                         </a> de BM.com<br>
                     </div>
 
-                    <p class="texto-pequeño">Ya tienes una cuenta en nuestra pagina?, entonces <a href="IniciarSesion.php"> 
-                    <span>Inicia Sesion</span></a></p>
+                    <p class="texto-pequeño">Ya tienes una cuenta en nuestra pagina?, entonces <a
+                            href="IniciarSesion.php">
+                            <span>Inicia Sesion</span></a></p>
 
                 </fieldset>
             </form>
@@ -140,7 +145,7 @@
             let expcorreo = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
             // Limpiar mensajes previos
-            document.querySelectorAll('.advertencia').forEach(function(advertencia) {
+            document.querySelectorAll('.advertencia').forEach(function (advertencia) {
                 advertencia.innerHTML = '';
             });
 
@@ -221,9 +226,7 @@
             if (!error) {
                 fetch('/apis/newUsuario.php', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         nombre: nom,
                         apellido: ape,
@@ -235,17 +238,18 @@
                         contraseña: contra
                     })
                 })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        window.location.href = data.redirect;
-                    } else {
-                        document.getElementById("correo-advertencia").innerHTML = data.message;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error en el registro:', error);
-                });
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.location.href = data.redirect;
+                        } else {
+                            document.getElementById("correo-advertencia").innerHTML = data.message;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error en el registro:', error);
+                    });
+
             }
         });
     </script>

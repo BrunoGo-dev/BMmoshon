@@ -1,19 +1,17 @@
 <?php
 header("Content-Type: application/json");
+ob_start();
 
-// Incluir la conexión correcta
 require_once __DIR__ . "/../models/conexion/cls_conectar.php";
 
-$obj = new conexion();
+$obj = new Conexion();
 $cn = $obj->getConexion();
 
-// Verificar que la petición sea POST
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     echo json_encode(["success" => false, "message" => "Método no permitido (solo POST)"]);
     exit;
 }
 
-// Recibir JSON desde fetch
 $input = json_decode(file_get_contents("php://input"), true);
 
 if (!$input) {
@@ -30,13 +28,11 @@ $nacimiento  = trim($input["fecha_nacimiento"] ?? "");
 $genero      = trim($input["genero"] ?? "");
 $contrasena  = trim($input["contraseña"] ?? "");
 
-// Validación básica
 if ($nombre === "" || $apellido === "" || $correo === "" || $contrasena === "") {
     echo json_encode(["success" => false, "message" => "Faltan datos obligatorios."]);
     exit;
 }
 
-// Verificar si el correo ya está registrado
 $sqlCheck = "SELECT id FROM usuario WHERE correo = ?";
 $stmt = $cn->prepare($sqlCheck);
 $stmt->bind_param("s", $correo);
@@ -48,10 +44,8 @@ if ($stmt->num_rows > 0) {
     exit;
 }
 
-// Hashear contraseña
 $hash = password_hash($contrasena, PASSWORD_BCRYPT);
 
-// Insertar usuario
 $sql = "INSERT INTO usuario (nombre, apellido, correo, telefono, direccion, fecha_nacimiento, genero, contraseña)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt = $cn->prepare($sql);
@@ -72,3 +66,4 @@ if ($stmt->execute()) {
 
 $stmt->close();
 $cn->close();
+ob_end_flush();
