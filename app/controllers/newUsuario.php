@@ -16,15 +16,25 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit;
 }
 
-// Sanitizar y obtener datos
-$nombre      = trim($_POST["nombre"] ?? "");
-$apellido    = trim($_POST["apellido"] ?? "");
-$correo      = trim($_POST["correo"] ?? "");
-$telefono    = trim($_POST["telefono"] ?? "");
-$direccion   = trim($_POST["direccion"] ?? "");
-$nacimiento  = trim($_POST["fecha_nacimiento"] ?? "");
-$genero      = trim($_POST["genero"] ?? "");
-$contrasena  = trim($_POST["contraseña"] ?? "");
+// Recibir JSON desde fetch
+$input = json_decode(file_get_contents("php://input"), true);
+
+if (!$input) {
+    echo json_encode([
+        "success" => false,
+        "message" => "No se recibió JSON"
+    ]);
+    exit;
+}
+
+$nombre      = trim($input["nombre"] ?? "");
+$apellido    = trim($input["apellido"] ?? "");
+$correo      = trim($input["correo"] ?? "");
+$telefono    = trim($input["telefono"] ?? "");
+$direccion   = trim($input["direccion"] ?? "");
+$nacimiento  = trim($input["fecha_nacimiento"] ?? "");
+$genero      = trim($input["genero"] ?? "");
+$contrasena  = trim($input["contraseña"] ?? "");
 
 // Validación básica
 if ($nombre === "" || $apellido === "" || $correo === "" || $contrasena === "") {
