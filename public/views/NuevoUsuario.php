@@ -219,7 +219,7 @@
             }
 
             if (!error) {
-                fetch('/app/controllers/newUsuario.php', {
+                fetch('/newUsuario', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
