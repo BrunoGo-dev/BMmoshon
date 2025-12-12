@@ -1,7 +1,5 @@
-<?php include("../init.php"); ?>
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <title>Iniciar Sesion</title>
@@ -30,99 +28,61 @@
         }
     </style>
 </head>
-
 <body>
-    <header>
-        <div class="logo">
-            <img src="../img/el_logo_BM.jpg" alt="Logo">                    
-        </div>
-        <nav>
-            <ul>         
-                <li><a href="Principal.php"><i class="fas fa-home"></i> Inicio</a></li>
-                <li><a href="Nosotros.php"><i class="fas fa-user"></i> Nosotros</a></li>
-                <li><a href="Contactanos.php"><i class="fas fa-envelope"></i>Contactanos</a></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <div id="contenedor2">
-        <div class="formulario">
-            <form id="formLogin" action="../../app/controllers/controler_IniciarSesion.php" method="POST">
-                <fieldset>
-                    <h2>Iniciar Sesion</h2>
-                    <p>EMAIL: </p>
-                    <div class="tamañobarras">
-                        <input type="email" placeholder="ejemplo.gmail.com" id="correo" name="correo">
-                        <div id="correo-error" class="mensaje-error"></div>
-                    </div>
+    <form id="formLogin" onsubmit="return false;">
+        <h2>Iniciar Sesión</h2>
+        <input type="email" id="correo" placeholder="Correo">
+        <div id="correo-error" class="mensaje-error"></div>
 
-                    <p>CONTRASEÑA:</p> 
-                    <div class="tamañobarras">
-                        <input type="password" placeholder="************" id="contraseña" name="contraseña">
-                        <div id="contraseña-error" class="mensaje-error"></div>
-                    </div>
+        <input type="password" id="contraseña" placeholder="Contraseña">
+        <div id="contraseña-error" class="mensaje-error"></div>
 
-                    <div>
-                        <a class="olvidado" href="#"><span>¿Olvidaste tu Contraseña?</span></a>
-                    </div>
-                    <div class="tamañoboton">
-                        <button type="submit" class="IniciarSesion" id="IniciarSesion" name="btnIniciarSesion">Iniciar Sesion</button>
-                    </div><br>
-
-                    <div class="registrate">
-                        <h5>¿Todavía no tienes una cuenta? <a href="NuevoUsuario.php"> <span>¡Regístrate!</span></a></h5>
-                    </div>
-                </fieldset>
-            </form>
-        </div>
-    </div>
+        <button type="submit" id="IniciarSesion">Entrar</button>
+    </form>
 
     <script>
-        
-        document.getElementById("formLogin").addEventListener("submit", function (e) {
-            
-            let correo = document.getElementById("correo").value;
-            let contraseña = document.getElementById("contraseña").value;
-            let expletras = /^[a-zA-Zñ\sáéíóúÁÉÍÓÚ]{3,30}$/;
-            let expcorreo = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+        document.getElementById("formLogin").addEventListener("submit", function(e) {
+            e.preventDefault();
+            let correo = document.getElementById("correo").value.trim();
+            let contraseña = document.getElementById("contraseña").value.trim();
+            let error = false;
 
             document.getElementById("correo-error").style.display = "none";
             document.getElementById("contraseña-error").style.display = "none";
             document.getElementById("correo").classList.remove("error");
             document.getElementById("contraseña").classList.remove("error");
 
-            let error = false; 
-
-            if (correo == "") {
-                document.getElementById("correo-error").innerText = "Debe proporcionar un correo electrónico";
-                document.getElementById("correo-error").style.display = "block";
-                document.getElementById("correo").classList.add("error");
-                error = true;
-            } else if (!expcorreo.test(correo)) {
-                document.getElementById("correo-error").innerText = "Ingrese un correo válido";
+            if (!correo) {
+                document.getElementById("correo-error").innerText = "Ingrese correo";
                 document.getElementById("correo-error").style.display = "block";
                 document.getElementById("correo").classList.add("error");
                 error = true;
             }
 
-            if (contraseña == "") {
-                document.getElementById("contraseña-error").innerText = "Debe ingresar una contraseña";
+            if (!contraseña) {
+                document.getElementById("contraseña-error").innerText = "Ingrese contraseña";
                 document.getElementById("contraseña-error").style.display = "block";
                 document.getElementById("contraseña").classList.add("error");
                 error = true;
             }
 
-            if (error) {
-                e.preventDefault();
-            }
-        })
+            if (error) return;
+
+            fetch('/apis/iniciarSesion.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ correo, contraseña })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = data.redirect;
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(err => console.error("Error en fetch:", err));
+        });
     </script>
-
-    <div class="footer-container">
-        <footer>
-            <p>&copy; 2024 BM.com - Todos los derechos reservados.</p>
-        </footer>
-    </div>
-
 </body>
 </html>
